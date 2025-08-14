@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello WishController!{% endblock %}
+
+{% block main %}
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">{{ wish.title }}</h5>
+            <p class="card-text">{{ wish.description }}</p>
+            <a href="/wish/{{ wish.author }}" class="btn btn-primary">{{ wish.author }}</a>
+        </div>
+    </div>
+{% endblock %}

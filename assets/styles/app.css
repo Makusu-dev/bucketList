@@ -1,3 +1,57 @@
 body {
-    background-color: skyblue;
+    background: linear-gradient(#0b0d4c, #274a2d);
+    background-attachment: fixed;
+    background-position: center center;
+    background-size: cover;    color: #FFF;
+    font-family: 'Roboto', sans-serif;
+    min-height: 100vh;
+}
+
+main {
+    padding: 10px;
+}
+
+form > .button {
+    margin: 2px;
+}
+
+table > a:link, a:visited {
+    background-color: #f44336;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+
+table > a:hover, a:active {
+    background-color: red;
+}
+
+.bucketLogo{
+    margin: 10px;
+}
+
+.bucketTitle {
+    margin: 25px;
+}
+
+header  {
+    background-color: #407e4c;
+    border-bottom: solid 1px #19301d;
+}
+
+.navbar-container {
+    background-color: #407e4c;
+}
+
+footer {
+    border-top: solid 2px rgba(55, 132, 214, 0.65);
+    padding:2vh;
+    font-size: 15px;
+    background-color: #9ad3a6;
+    position:fixed;
+    width:100%;
+    bottom:0;
+    text-align: center;
 }
