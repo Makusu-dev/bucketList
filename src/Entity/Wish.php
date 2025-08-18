@@ -6,14 +6,10 @@ use App\Repository\WishRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: WishRepository::class)]
 class Wish
 {
-    public function __construct()
-    {
-        $this->isPublished = false;
-        $this->dateCreated = new \DateTimeImmutable();
-    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -83,21 +79,24 @@ class Wish
         return $this->isPublished;
     }
 
-    public function setIsPublished(bool $isPublished): static
+    #[ORM\PrePersist]
+    public function setIsPublished(): static
     {
-        $this->isPublished = $isPublished;
+        $this->isPublished = 1;
 
         return $this;
     }
+
 
     public function getDateCreated(): ?\DateTimeImmutable
     {
         return $this->dateCreated;
     }
 
-    public function setDateCreated(\DateTimeImmutable $dateCreated): static
+    #[ORM\PrePersist]
+    public function setDateCreated(): static
     {
-        $this->dateCreated = $dateCreated;
+        $this->dateCreated = new \DateTimeImmutable();
 
         return $this;
     }
@@ -107,6 +106,7 @@ class Wish
         return $this->dateUpdated;
     }
 
+    #[ORM\PreUpdate]
     public function setDateUpdated(?\DateTimeImmutable $dateUpdated): static
     {
         $this->dateUpdated = $dateUpdated;

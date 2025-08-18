@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Wish;
+use App\Form\WishType;
 use App\Repository\WishRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -24,6 +29,28 @@ final class WishController extends AbstractController
             'wishes' => $wishes,
         ]);
     }
+
+    #[Route('/create', name: '_create')]
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        $wish=new Wish();
+        $form=$this->createForm(WishType::class,$wish);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $em->persist($wish);
+            $em->flush();
+            $this->addFlash('success', 'Your wish has been published!');
+//            dd($wish);
+            $this->redirectToRoute('wish_detail', ['id'=>$wish->getId()]);
+        }
+
+        return $this->render('wish/edit.html.twig', ['wish_form' => $form]);
+    }
+
+
+
+
 
     #[Route('/{id}', name: '_detail', requirements: ['id' => '\d+'], methods: ['GET'])]
     public function detail(int $id, WishRepository $wishRepository): Response
@@ -55,5 +82,10 @@ final class WishController extends AbstractController
             'wishes' => $wishlistByAuthor,
         ]);
     }
+
+
+
+
+
 
 }
