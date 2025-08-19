@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WishRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Boolean;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: WishRepository::class)]
@@ -31,7 +32,7 @@ class Wish
     private ?\DateTimeImmutable $dateCreated = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $dateUpdated = null;
+    private ?\DateTime $dateUpdated = null;
 
     public function getId(): ?int
     {
@@ -79,10 +80,10 @@ class Wish
         return $this->isPublished;
     }
 
-    #[ORM\PrePersist]
-    public function setIsPublished(): static
+
+    public function setIsPublished(bool $isPublished): static
     {
-        $this->isPublished = 1;
+        $this->isPublished = $isPublished;
 
         return $this;
     }
@@ -101,15 +102,15 @@ class Wish
         return $this;
     }
 
-    public function getDateUpdated(): ?\DateTimeImmutable
+    public function getDateUpdated(): ?\DateTime
     {
         return $this->dateUpdated;
     }
 
     #[ORM\PreUpdate]
-    public function setDateUpdated(?\DateTimeImmutable $dateUpdated): static
+    public function setDateUpdated(): static
     {
-        $this->dateUpdated = $dateUpdated;
+        $this->dateUpdated = new \DateTime();
 
         return $this;
     }

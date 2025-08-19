@@ -12,6 +12,13 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
+    {%  for type, messages in app.flashes %}
+        {%  for message in messages %}
+            <div class="alert alert-{{ type }}">
+                {{ message }}
+            </div>
+        {%  endfor %}
+    {%  endfor %}
     <body>
         {{ include("header.html.twig") }}
         <main>

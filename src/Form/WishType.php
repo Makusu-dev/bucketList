@@ -16,6 +16,7 @@ class WishType extends AbstractType
             ->add('title')
             ->add('description')
             ->add('author')
+            ->add('isPublished', Type\CheckboxType::class, ['label' => 'Publish?', 'required' => false])
             ->add('Submit',Type\SubmitType::class, ['label' => 'Publish your wish'])
         ;
     }

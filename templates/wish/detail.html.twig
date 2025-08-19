@@ -10,5 +10,7 @@
             <p class="card-text">{{ wish.description }}</p>
             <a href="/wish/{{ wish.author }}" class="btn btn-primary">{{ wish.author }}</a>
         </div>
+        <a href="/wish/update/{{ wish.id }}" class="btn btn-primary">Modifier</a>
+        <a href="/wish/delete/{{ wish.id }}" class="btn btn-danger">Supprimer</a>
     </div>
 {% endblock %}

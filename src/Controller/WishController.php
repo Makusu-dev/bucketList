@@ -42,29 +42,49 @@ final class WishController extends AbstractController
             $em->flush();
             $this->addFlash('success', 'Your wish has been published!');
 //            dd($wish);
-            $this->redirectToRoute('wish_detail', ['id'=>$wish->getId()]);
+            return $this->redirectToRoute('wish_detail', ['id'=>$wish->getId()]);
         }
 
         return $this->render('wish/edit.html.twig', ['wish_form' => $form]);
+    }
+
+    #[Route('/update/{id}', name: '_update')]
+    public function edit(Wish $wish,Request $request, EntityManagerInterface $em): Response
+    {
+
+        $form=$this->createForm(WishType::class,$wish);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted()) {
+            $em->persist($wish);
+            $em->flush();
+            $this->addFlash('success', 'Your wish has been updated!');
+//            dd($wish);
+            return $this->redirectToRoute('wish_detail', ['id'=>$wish->getId()]);
+        }
+
+        return $this->render('wish/edit.html.twig', ['wish_form' => $form]);
+    }
+
+    #[Route('/delete/{id}', name: '_delete')]
+    public function delete(Wish $wish,Request $request, EntityManagerInterface $em): Response
+    {
+        $em->remove($wish);
+        $em->flush();
+        $this->addFlash('success', 'Your wish has been deleted!');
+        return $this->redirectToRoute('main');
     }
 
 
 
 
 
-    #[Route('/{id}', name: '_detail', requirements: ['id' => '\d+'], methods: ['GET'])]
-    public function detail(int $id, WishRepository $wishRepository): Response
+    #[Route('/{id}', name: '_detail', requirements: ['id' => '\d+'])]
+    public function detail(Wish $wish): Response
     {
-        $wish = $wishRepository->find($id);
-
-        if (!$wish){
-            throw $this->createNotFoundException('This wish do not exists! Sorry!');
-        }
 
         return $this->render('wish/detail.html.twig', [
-            'controller_name' => 'WishController',
-            'id' => $id,
-            'wish' => $wish,
+            'wish' => $wish
         ]);
     }
 
