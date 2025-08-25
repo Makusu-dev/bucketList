@@ -9,6 +9,7 @@
         <th>Id</th>
         <th>Title</th>
         <th>Description</th>
+        <th>Categories</th>
         <th>Author</th>
         <th>Détail</th>
     </tr>
@@ -17,6 +18,10 @@
         <td>{{ wish.id }}</td>
         <td>{{ wish.title }}</td>
         <td>{{ wish.description }}</td>
+        <td>{%  for category in wish.categories %}
+            {{ category.name }} <br>
+            {% endfor %}
+        </td>
         <td>{{ wish.author }}</td>
         <td><a href="{{ path('wish_detail',{id:wish.id}) }}">{{ wish.id }}</a></td>
     </tr>

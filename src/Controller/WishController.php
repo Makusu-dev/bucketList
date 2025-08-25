@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Wish;
 use App\Form\WishType;
+use App\Repository\CategoryRepository;
 use App\Repository\WishRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,7 +22,7 @@ final class WishController extends AbstractController
     #[Route('/list', name: '_list', methods: ['GET'])]
     public function list(WishRepository $wishRepository): Response
     {
-        $wishes = $wishRepository->findAll();
+        $wishes = $wishRepository->getWishesWithCategories();
 
         // et on veut n'afficher que les wish publiés :
         //$wishesPublished = $wishRepository->findBy(['isPublished' => true]);
@@ -93,7 +95,7 @@ final class WishController extends AbstractController
     {
         $wishlistByAuthor = $wishRepository->findBy(['author' => $author]);
 
-        if (!$wishlistByAuthor){
+        if (!$wishlistByAuthor) {
             throw $this->createNotFoundException('This wish do not exists! Sorry!');
         }
 
@@ -101,6 +103,19 @@ final class WishController extends AbstractController
             'controller_name' => 'WishController',
             'wishes' => $wishlistByAuthor,
         ]);
+    }
+
+        #[Route('/category/{id}', name: '_byCategory', requirements: ['category' => '\d+'], methods: ['GET'])]
+    public function byCategory(Category $category , WishRepository $wishRepository): Response
+    {
+        $wishlistByACategory = $wishRepository->getWishesByCategory($category->getId());
+
+
+        return $this->render('wish/list.html.twig', [
+            'controller_name' => 'WishController',
+            'wishes' => $wishlistByACategory,
+        ]);
+
     }
 
 

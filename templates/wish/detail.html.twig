@@ -8,6 +8,10 @@
         <div class="card-body">
             <h5 class="card-title">{{ wish.title }}</h5>
             <p class="card-text">{{ wish.description }}</p>
+            <div>{%  for category in wish.categories %}
+                    <a href="/wish/category/{{ category.id }}">{{ category.name }} </a><br>
+                {% endfor %}
+            </div>
             <a href="/wish/{{ wish.author }}" class="btn btn-primary">{{ wish.author }}</a>
         </div>
         <a href="/wish/update/{{ wish.id }}" class="btn btn-primary">Modifier</a>
